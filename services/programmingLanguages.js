@@ -5,8 +5,8 @@ const config = require("../config");
 async function getMultiple(page = 1) {
   const offset = helper.getOffset(page, config.listPerPage);
   const rows = await db.query(
-    `SELECT * FROM programming_languages WHERE id = 1` 
-    /* LIMIT ${offset},${config.listPerPage} */
+    `SELECT id,nombre,Email,profecion,resumen,puntaje,cant_reseñas,portafolio  WHERE id = 1
+    FROM programming_languages` /*LIMIT  ${offset},${config.listPerPage} */
   );/* este limit es para que en el get no muestre mas de dies variables */
   const data = helper.emptyOrRows(rows);
   const meta = { page };

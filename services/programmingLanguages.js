@@ -5,9 +5,9 @@ const config = require("../config");
 async function getMultiple(page = 1) {
   const offset = helper.getOffset(page, config.listPerPage);
   const rows = await db.query(
-    `SELECT id, name, released_year, githut_rank, pypl_rank, tiobe_rank 
-    FROM programming_languages LIMIT ${offset},${config.listPerPage}`
-  );
+    `SELECT * FROM programming_languages WHERE id = 1` 
+    /* LIMIT ${offset},${config.listPerPage} */
+  );/* este limit es para que en el get no muestre mas de dies variables */
   const data = helper.emptyOrRows(rows);
   const meta = { page };
 
@@ -20,9 +20,10 @@ async function getMultiple(page = 1) {
 async function create(programmingLanguage) {
   const result = await db.query(
     `INSERT INTO programming_languages 
-    (name, released_year, githut_rank, pypl_rank, tiobe_rank) 
+    (id,nombre,Email,profecion,resumen,puntaje,cant_reseñas,portafolio ) 
     VALUES 
-    ("${programmingLanguage.name}", ${programmingLanguage.released_year}, ${programmingLanguage.githut_rank}, ${programmingLanguage.pypl_rank}, ${programmingLanguage.tiobe_rank})`
+    ("${programmingLanguage.nombre}", ${programmingLanguage.Email}, ${programmingLanguage.profecion}, ${programmingLanguage.resumen},
+     ${programmingLanguage.puntaje}, ${programmingLanguage.cant_reseñas}, ${programmingLanguage.portafolio})`
   );
 
   let message = "Error in creating programming language";
@@ -37,8 +38,8 @@ async function create(programmingLanguage) {
 async function update(id, programmingLanguage) {
   const result = await db.query(
     `UPDATE programming_languages 
-    SET name="${programmingLanguage.name}", released_year=${programmingLanguage.released_year}, githut_rank=${programmingLanguage.githut_rank}, 
-    pypl_rank=${programmingLanguage.pypl_rank}, tiobe_rank=${programmingLanguage.tiobe_rank} 
+    SET nombre="${programmingLanguage.nombre}", Email=${programmingLanguage.Email}, profecion=${programmingLanguage.profecion}, 
+    resumen=${programmingLanguage.resumen}, puntaje=${programmingLanguage.puntaje}, cant_reseñas=${programmingLanguage.cant_reseñas}, portafolio=${programmingLanguage.portafolio},
     WHERE id=${id}`
   );
 
